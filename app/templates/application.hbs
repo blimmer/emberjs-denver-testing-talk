@@ -1,3 +1,12 @@
-<h2 id="title">Welcome to Ember.js</h2>
+<div class="container">
+  <h1>Amazing Login App</h1>
+  <div class="flash-container">
+    {{#each flashMessages.queue as |flash|}}
+      {{flash-message flash=flash messageStyle='foundation'}}
+    {{/each}}
+  </div>
 
-{{outlet}}
+  <div class="content">
+    {{outlet}}
+  </div>
+</div>
