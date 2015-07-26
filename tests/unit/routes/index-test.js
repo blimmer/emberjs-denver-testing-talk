@@ -4,19 +4,18 @@ import {
   describeModule,
   it
 } from 'ember-mocha';
-import AuthenticatedRouteMixin from 'tested-login-app/mixins/authenticated-route';
 
 describeModule(
-  'route:dashboard',
-  'DashboardRoute',
+  'route:index',
+  'IndexRoute',
   {
     // Specify the other units that are required for this test.
     // needs: ['controller:foo']
   },
   function() {
-    it('is an authenticated route', function() {
+    it('exists', function() {
       var route = this.subject();
-      expect(AuthenticatedRouteMixin.detect(route)).to.be.true;
+      expect(route).to.be.ok;
     });
   }
 );

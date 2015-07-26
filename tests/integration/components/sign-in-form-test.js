@@ -4,6 +4,7 @@ import {
   describeComponent,
   it
 } from 'ember-mocha';
+import Ember from 'ember';
 import hbs from 'htmlbars-inline-precompile';
 
 describeComponent(
@@ -13,18 +14,32 @@ describeComponent(
     integration: true
   },
   function() {
-    it('renders', function() {
-      // Set any properties with this.set('myProperty', 'value');
-      // Handle any actions with this.on('myAction', function(val) { ... });
-      // Template block usage:
-      // this.render(hbs`
-      //   {{#sign-in-form}}
-      //     template content
-      //   {{/sign-in-form}}
-      // `);
+    it('shows the user\'s email address', function() {
+      this.set('user', Ember.Object.create({
+        email: 'foo@bar.com'
+      }));
 
+      this.render(hbs`{{sign-in-form user=user}}`);
+      expect(this.$('#sign-in-greeting').text()).to.contain('foo@bar.com');
+    });
+
+    it('has a button to login', function() {
       this.render(hbs`{{sign-in-form}}`);
-      expect(this.$()).to.have.length(1);
+      expect(this.$('button#sign-in-cta').length).to.equal(1);
+    });
+
+    it('sends the login action with the user when clicking the button', function(done) {
+      const user = Ember.Object.create({
+        email: 'foo@bar.com'
+      });
+      this.set('user', user);
+      this.on('signIn', function(actionUser) {
+        expect(actionUser).to.equal(user);
+        done();
+      });
+
+      this.render(hbs`{{sign-in-form user=user signIn='signIn'}}`);
+      this.$('button#sign-in-cta').click();
     });
   }
 );
